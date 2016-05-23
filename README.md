@@ -44,3 +44,23 @@ You can also put the argument into a separate variable like this:
 ````
 
 That allows you to add more parameters later.
+
+** Full Example **
+This example shows how to use the function to output a paginated list that Bootstrap expects. Here it wraps the list in a ul element and puts each link in an li elment. 
+
+````
+  <?php
+    $args = [
+      'query' => $the_query,
+      'output_wrap' => 'ul',
+      'output_class' => 'pagination',
+      'current_wrap' => 'li',
+      'current_class' => 'active',
+      'page_wrap' => 'li',
+      'page_class' => '',
+      'link_class' => '',
+      'show_page_count' => false    
+    ];
+    echo get_paginated_numbers( $args )
+?>
+````
