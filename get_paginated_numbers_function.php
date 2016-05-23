@@ -39,6 +39,14 @@ function get_paginated_numbers( $args = [] ) {
         'last_page_text'        => __( 'Last' ),
         'next_link_text'        => __( 'Older Entries' ),
         'previous_link_text'    => __( 'Newer Entries' ),
+        'current_wrap'          => 'span',
+        'current_class'         => 'current',
+        'page_wrap'             => '',
+        'page_class'            => '',
+        'link_class'            => 'inactive',
+        'output_wrap'           => 'div',
+        'output_class'          => 'pagination',
+        'show_page_count'       => true,
         'show_posts_links'      => false,
         'range'                 => 5,
     ];
@@ -139,12 +147,18 @@ function get_paginated_numbers( $args = [] ) {
 
                 if ( $v == $current_page ) { 
 
-                    $page_numbers[] = '<span class="current">' . $v . '</span>';
-
+//                    $page_numbers[] = '<span class="current">' . $v . '</span>';
+                    $page_numbers[] = '<'. $args['current_wrap'] .' class="' . $args['current_class'] . '"><span>' . $v . '</span></'. $args['current_wrap'] .'>';
                 }else{
 
-                    $page_numbers[] = '<a href="' . get_pagenum_link( $v ) . '" class="inactive">' . $v . '</a>';
-
+//                    $page_numbers[] = '<a href="' . get_pagenum_link( $v ) . '" class="inactive">' . $v . '</a>';
+                    $link = '<a href="' . get_pagenum_link( $v ) . '" class="' . $args['link_class'] . '">' . $v . '</a>';
+                    if( !empty($args['page_wrap']) ){
+                        $page_numbers[] = '<'. $args['page_wrap'] .' class="' . $args['page_class'] . '">' . $link . '</'. $args['page_wrap'] .'>';
+                    }else{
+                        $page_numbers[] = $link;
+                    }
+                    
                 }
 
             }
@@ -160,20 +174,34 @@ function get_paginated_numbers( $args = [] ) {
             $next_page      = ( $current_page !== $max_pages )              ? '<a href="' . get_pagenum_link( $current_page + 1 ) . '">' . $args['next_page_text'] . '</a>'     : '';
             $first_page     = ( !in_array( 1, $range_numbers ) )            ? '<a href="' . get_pagenum_link( 1 ) . '">' . $args['first_page_text'] . '</a>'                    : '';
             $last_page      = ( !in_array( $max_pages, $range_numbers ) )   ? '<a href="' . get_pagenum_link( $max_pages ) . '">' . $args['last_page_text'] . '</a>'            : '';
+            
+            
+            //Add the page_wrap if it exists
+            if( !empty($args['page_wrap']) ){
+                $previous_page = '<'. $args['page_wrap'] .'>' . $previous_page . '</'. $args['page_wrap'] .'>';
+                $next_page = '<'. $args['page_wrap'] .'>' . $next_page . '</'. $args['page_wrap'] .'>';
+            }
 
             /**
              * Text to display before the page numbers
              * This is set to the following structure:
              * - Page X of Y
             */
-            $page_text      = '<span>' . sprintf( __( 'Page %s of %s' ), $current_page, $max_pages ) . '</span>';
+            if($args['show_page_count']){
+                $page_text      = '<span>' . sprintf( __( 'Page %s of %s' ), $current_page, $max_pages ) . '</span>';
+                
+            }else{
+                $page_text = '';
+            }
+            
             // Turn the array of page numbers into a string
             $numbers_string = implode( ' ', $page_numbers );
+            
 
             // The final output of the function
-            $paginated_text = '<div class="pagination">';
+            $paginated_text = '<' . $args['output_wrap'] . ' class="' . $args['output_class'] . '">';
             $paginated_text .= $page_text . $first_page . $previous_page . $numbers_string . $next_page . $last_page;
-            $paginated_text .= '</div>';
+            $paginated_text .= '</' . $args['output_wrap'] . '>';
 
         }
 
