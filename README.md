@@ -46,6 +46,7 @@ You can also put the argument into a separate variable like this:
 That allows you to add more parameters later.
 
 ** Full Example **
+
 This example shows how to use the function to output a paginated list that Bootstrap expects. Here it wraps the list in a ul element and puts each link in an li elment. 
 
 ````
