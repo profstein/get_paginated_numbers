@@ -14,7 +14,7 @@ As is often the case with WP there are a few steps to get this working.
 
 1. Copy the function and put it in your functions.php file. It's also possible to create a plugin for this but because the use of it is mostly tied to the display of a particular theme that's not necessary.
 2. Call the function in one of your template files where you want the pagination to appear. See Examples Uses below for specifics.
-3. 
+
 ### Example Uses
 
 **Query Setup**
